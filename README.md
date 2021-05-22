@@ -1,1 +1,1 @@
-# Events-App
+# Events App
