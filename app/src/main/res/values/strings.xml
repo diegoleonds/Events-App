@@ -16,4 +16,9 @@
     <string name="name_txt_field_hint">Name</string>
     <string name="e_mail_txt_field_hint">E-mail</string>
     <string name="entry_btn_txt">Enter</string>
+    <string name="user_name">user_name</string>
+    <string name="user_email">user_email</string>
+    <string name="invalid_name_error">Invalid name</string>
+    <string name="invalid_email_error">Invalid email</string>
+    <string name="event_bundle">event_bundle</string>
 </resources>

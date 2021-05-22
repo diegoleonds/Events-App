@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".EventInfoFragment">
+    tools:context=".ui.fragments.EventInfoFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="60dp">
 
         <ImageView
             android:id="@+id/event_img"
@@ -22,11 +23,23 @@
         <ImageView
             android:id="@+id/gradient_bg"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/event_img"
             app:srcCompat="@drawable/gradient_app_background_color" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/event_info_back_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/event_img"
+            app:layout_constraintStart_toStartOf="@id/event_img"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/primary_color"
+            app:tint="@color/white"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/event_name"
@@ -37,7 +50,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginBottom="40dp"
             android:textAppearance="@style/EventImgTitle"
-            tools:text="Description"/>
+            tools:text="Title"/>
 
         <ImageView
             android:id="@+id/event_date_icon"
@@ -49,7 +62,7 @@
             app:tint="@color/event_info_icon_color"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/event_date"
+            android:id="@+id/event_info_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/event_date_icon"
@@ -63,15 +76,15 @@
             android:id="@+id/event_price_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/event_date"
-            app:layout_constraintBottom_toBottomOf="@id/event_date"
-            app:layout_constraintTop_toTopOf="@id/event_date"
+            app:layout_constraintStart_toEndOf="@id/event_info_date"
+            app:layout_constraintBottom_toBottomOf="@id/event_info_date"
+            app:layout_constraintTop_toTopOf="@id/event_info_date"
             android:layout_marginStart="20dp"
             android:src="@drawable/ic_outline_payments_24"
             app:tint="@color/event_info_icon_color"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/event_price"
+            android:id="@+id/event_info_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/event_price_icon"
@@ -82,21 +95,11 @@
             tools:text="25.3"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/event_info_description_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/event_img"
-            app:layout_constraintStart_toStartOf="@+id/event_name"
-            android:layout_marginTop="20dp"
-            android:textAppearance="@style/EventDescriptionTitle"
-            android:text="@string/event_info_description_title"/>
-
-        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/event_info_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/event_info_description_title"
-            app:layout_constraintStart_toStartOf="@id/event_info_description_title"
+            app:layout_constraintTop_toBottomOf="@id/event_img"
+            app:layout_constraintStart_toStartOf="@id/event_info_description"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
             android:textAppearance="@style/EventDescription"
@@ -108,9 +111,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/event_info_description"
-            app:layout_constraintStart_toStartOf="@id/event_info_description_title"
+            app:layout_constraintStart_toStartOf="@id/event_info_description"
             android:layout_marginTop="13dp"
             android:textAppearance="@style/EventDescriptionReadMoreAction"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:text="@string/event_info_read_more_ds" />
 
         <ImageView
@@ -123,6 +129,7 @@
             android:src="@drawable/ic_round_people_outline_24"/>
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/event_info_people"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/people_icon"

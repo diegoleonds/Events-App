@@ -7,29 +7,44 @@
 
     <fragment
         android:id="@+id/entryFragment"
-        android:name="com.example.events.EntryFragment"
+        android:name="com.example.events.ui.fragments.EntryFragment"
         android:label="fragment_entry"
         tools:layout="@layout/fragment_entry" >
         <action
             android:id="@+id/action_entryFragment_to_eventsListFragment"
-            app:destination="@id/eventsListFragment" />
+            app:destination="@id/eventsListFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/eventsListFragment"
-        android:name="com.example.events.EventsListFragment"
+        android:name="com.example.events.ui.fragments.EventsListFragment"
         android:label="fragment_events_list"
         tools:layout="@layout/fragment_events_list" >
         <action
             android:id="@+id/action_eventsListFragment_to_eventInfoFragment"
-            app:destination="@id/eventInfoFragment" />
+            app:destination="@id/eventInfoFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/eventInfoFragment"
-        android:name="com.example.events.EventInfoFragment"
+        android:name="com.example.events.ui.fragments.EventInfoFragment"
         android:label="fragment_event_info"
         tools:layout="@layout/fragment_event_info" >
         <action
             android:id="@+id/action_eventInfoFragment_to_eventsListFragment"
-            app:destination="@id/eventsListFragment" />
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@+id/eventsListFragment"/>
+        <argument
+            android:name="Event"
+            app:argType="com.example.events.data.model.Event" />
     </fragment>
 </navigation>
