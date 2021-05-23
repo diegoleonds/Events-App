@@ -3,12 +3,10 @@ package com.example.events.ui.recyclerview
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.events.R
 import com.example.events.data.model.Event
 import com.example.events.ui.utils.ImgLoader
@@ -18,7 +16,8 @@ class EventAdapter(
     private val click: AdapterClick<Event>,
     private val imgLoader: ImgLoader
 ): RecyclerView.Adapter<EventAdapter.ViewHolder>() {
-    var events = emptyList<Event>()
+    var events: ArrayList<Event> = ArrayList<Event>()
+    var eventsSearchList = ArrayList<Event>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -44,6 +43,43 @@ class EventAdapter(
     }
 
     override fun getItemCount(): Int = events.size
+
+    fun getFilter(): Filter {
+        return eventNameFilter
+    }
+
+    private val eventNameFilter = object : Filter() {
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filteredList: ArrayList<Event> = ArrayList()
+            if (constraint == null || constraint.isEmpty()) {
+                eventsSearchList.let { filteredList.addAll(it) }
+            } else {
+                val query = constraint.toString().trim().toLowerCase()
+                eventsSearchList.forEach {
+                    if (it.title.toLowerCase().contains(query)) {
+                        filteredList.add(it)
+                    }
+                }
+            }
+            val results = FilterResults()
+            results.values = filteredList
+            return results
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            if (results?.values is ArrayList<*>) {
+                events.clear()
+                events.addAll(results.values as ArrayList<Event>)
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+    fun updateData(list: List<Event>) {
+        events = ArrayList<Event>(list)
+        eventsSearchList = ArrayList<Event>(list)
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(view: View):  RecyclerView.ViewHolder(view)  {
         val eventName = view.findViewById<TextView>(R.id.event_item_name)

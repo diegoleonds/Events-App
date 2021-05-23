@@ -1,14 +1,13 @@
 package com.example.events.ui.fragments
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.ListFragment
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,8 +37,10 @@ class EventsListFragment : Fragment() {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_events_list, container, false)
     }
@@ -51,19 +52,20 @@ class EventsListFragment : Fragment() {
         setRecyclerViewAdapter()
         observeViewModelEvents()
         getEvents()
+        observeSearchField()
     }
 
-    override fun onResume() {
-        super.onResume()
-
+    override fun onStart() {
+        super.onStart()
+        searchEditTxt.setText("")
     }
 
-    private fun inflateViews(view : View){
+    private fun inflateViews(view: View) {
         searchEditTxt = view.findViewById(R.id.search_txt_input)
         eventList = view.findViewById(R.id.events_rv)
     }
 
-    private fun initAdapter(view: View){
+    private fun initAdapter(view: View) {
         adapter = EventAdapter(object : AdapterClick<Event> {
             override fun simpleClick(event: Event) {
                 val bundle = bundleOf(Pair(getString(R.string.event_bundle), event))
@@ -73,25 +75,40 @@ class EventsListFragment : Fragment() {
         }, ImgLoader(Glide.with(view.context)))
     }
 
-    private fun setRecyclerViewAdapter(){
+    private fun setRecyclerViewAdapter() {
         eventList.adapter = adapter
         eventList.setHasFixedSize(true)
         eventList.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun observeViewModelEvents(){
+    private fun observeViewModelEvents() {
         viewModel.events.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.events = it
-                adapter.notifyDataSetChanged()
-                Log.e("Adapter array", adapter.events.toString())
+                adapter.updateData(it)
             }
         })
     }
 
-    private fun getEvents(){
+    private fun getEvents() {
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.getEvents()
         }
+    }
+
+    private fun observeSearchField(){
+        searchEditTxt.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(c: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                adapter.getFilter().filter(c)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+        }
+        )
     }
 }

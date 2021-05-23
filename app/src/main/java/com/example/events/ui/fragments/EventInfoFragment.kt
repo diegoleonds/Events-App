@@ -1,22 +1,32 @@
 package com.example.events.ui.fragments
 
+import android.content.Context
 import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.events.R
 import com.example.events.data.model.Event
+import com.example.events.data.model.Person
 import com.example.events.ui.utils.ImgLoader
+import com.example.events.ui.viewmodel.EventInfoViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class EventInfoFragment : Fragment() {
+    val viewModel: EventInfoViewModel by viewModel()
+
     lateinit var backFab: FloatingActionButton
     lateinit var imgEvent: ImageView
     lateinit var eventNameTxtView: TextView
@@ -25,6 +35,7 @@ class EventInfoFragment : Fragment() {
     lateinit var eventDescriptionTxtView: TextView
     lateinit var eventPeopleTxtView: TextView
     lateinit var readMoreTxtClick: TextView
+    lateinit var joinBtn: Button
 
     lateinit var event: Event
 
@@ -45,6 +56,7 @@ class EventInfoFragment : Fragment() {
         setBackFabClick(view)
         getDataFromBundle()
         setReadMoreTxtClick()
+        setJoinBtnClick()
     }
 
     private fun inflateViews(view: View){
@@ -56,6 +68,7 @@ class EventInfoFragment : Fragment() {
         eventPeopleTxtView = view.findViewById(R.id.event_info_people)
         imgEvent = view.findViewById(R.id.event_img)
         readMoreTxtClick = view.findViewById(R.id.read_more_txt_click)
+        joinBtn = view.findViewById(R.id.join_btn)
     }
 
     private fun setBackFabClick(view: View){
@@ -87,5 +100,29 @@ class EventInfoFragment : Fragment() {
             eventDescriptionTxtView.maxLines = 1000
             readMoreTxtClick.visibility = View.GONE
         }
+    }
+
+    private fun setJoinBtnClick(){
+        joinBtn.setOnClickListener {
+            getPersonFromSharedPreferences()?.let {
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.joinEvent(
+                        event,
+                        it
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getPersonFromSharedPreferences(): Person? {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        sharedPref?.let {
+            return Person(
+                it.getString(getString(R.string.user_name), "") ?: "",
+                it.getString(getString(R.string.user_email), "") ?: ""
+            )
+        }
+        return null
     }
 }

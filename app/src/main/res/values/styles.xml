@@ -32,16 +32,23 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="EditText">
+    <style name="MyEditText">
         <item name="backgroundTint">@color/text_layout_bg</item>
         <item name="android:textColor">@color/medium_white</item>
+        <item name="android:maxLines">1</item>
     </style>
 
-    <style name="BorderValue">
+    <style name="MyTextInputLayout">
+        <item name="startIconTint">@color/edit_txt_layout_content</item>
+        <item name="android:textColorHint">@color/edit_txt_layout_content</item>
         <item name="boxCornerRadiusBottomEnd">12dp</item>
         <item name="boxCornerRadiusBottomStart">12dp</item>
         <item name="boxCornerRadiusTopEnd">12dp</item>
         <item name="boxCornerRadiusTopStart">12dp</item>
+    </style>
+
+    <style name="MyTextInputLayout.ClearText" parent="MyTextInputLayout">
+        <item name="endIconMode">clear_text</item>
     </style>
 
 </resources>

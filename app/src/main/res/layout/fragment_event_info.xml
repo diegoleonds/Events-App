@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="60dp">
+        android:paddingBottom="35dp">
 
         <ImageView
             android:id="@+id/event_img"
@@ -148,18 +148,6 @@
             android:layout_marginTop="18dp"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:text="@string/join_event_btn"
-            />
-
-        <Button
-            android:id="@+id/share_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/join_btn"
-            app:layout_constraintBottom_toBottomOf="@id/join_btn"
-            android:layout_marginStart="10dp"
-            app:strokeColor="@color/white"
-            android:text="Share"
-            style="?attr/materialButtonOutlinedStyle"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
