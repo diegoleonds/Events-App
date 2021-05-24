@@ -15,7 +15,7 @@ An Android App to display events.
   - Search by event name
 
 ## Architecture
-- As Google recommends, the architecture chosen was MVVM.
+As Google recommends, the architecture chosen was MVVM.
 ![](viewmodel.png)
 
 ## Built With
