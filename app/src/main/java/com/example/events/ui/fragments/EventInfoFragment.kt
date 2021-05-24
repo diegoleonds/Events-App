@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.events.R
 import com.example.events.data.model.Event
 import com.example.events.data.model.Person
+import com.example.events.ui.utils.DateConverter
 import com.example.events.ui.utils.ImgLoader
 import com.example.events.ui.viewmodel.EventInfoViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -87,8 +88,10 @@ class EventInfoFragment : Fragment() {
                 imgUrl = it.image,
                 imgView = imgEvent)
 
+            val converter = DateConverter()
+
+            eventDateTxtView.setText(converter.convertTimestampToDateString(it.date))
             eventNameTxtView.setText(it.title)
-            eventDateTxtView.setText(it.date.toString())
             eventPriceTxtView.setText(it.price.toString())
             eventDescriptionTxtView.setText(it.description)
             eventPeopleTxtView.setText(it.people.size.toString())

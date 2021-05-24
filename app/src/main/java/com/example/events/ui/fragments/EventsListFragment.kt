@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -30,6 +33,8 @@ class EventsListFragment : Fragment() {
     lateinit var adapter: EventAdapter
 
     lateinit var searchEditTxt: TextInputEditText
+    lateinit var tryAgainBtn: Button
+    lateinit var errorMessage: TextView
     lateinit var eventList: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +53,7 @@ class EventsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         inflateViews(view)
+        setTryAgainBtnClick()
         initAdapter(view)
         setRecyclerViewAdapter()
         observeViewModelEvents()
@@ -63,6 +69,14 @@ class EventsListFragment : Fragment() {
     private fun inflateViews(view: View) {
         searchEditTxt = view.findViewById(R.id.search_txt_input)
         eventList = view.findViewById(R.id.events_rv)
+        tryAgainBtn = view.findViewById(R.id.try_again_btn)
+        errorMessage = view.findViewById(R.id.erro_message_txt)
+    }
+
+    private fun setTryAgainBtnClick(){
+        tryAgainBtn.setOnClickListener {
+            getEvents()
+        }
     }
 
     private fun initAdapter(view: View) {
@@ -84,9 +98,31 @@ class EventsListFragment : Fragment() {
     private fun observeViewModelEvents() {
         viewModel.events.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.updateData(it)
+                if (it.isEmpty()) {
+                    Toast.makeText(context, getString(R.string.error_network_toast),
+                        Toast.LENGTH_SHORT).show()
+
+                    setViewAsGone(eventList)
+                    setViewAsVisible(errorMessage)
+                    setViewAsVisible(tryAgainBtn)
+                } else {
+                    adapter.updateData(it)
+                    setViewAsVisible(eventList)
+                    setViewAsGone(errorMessage)
+                    setViewAsGone(tryAgainBtn)
+                }
             }
         })
+    }
+
+    private fun setViewAsGone(view: View) {
+        if (view.visibility.equals(View.VISIBLE))
+            view.visibility = View.GONE
+    }
+
+    private fun setViewAsVisible(view: View) {
+        if (view.visibility.equals((View.GONE)))
+            view.visibility = View.VISIBLE
     }
 
     private fun getEvents() {

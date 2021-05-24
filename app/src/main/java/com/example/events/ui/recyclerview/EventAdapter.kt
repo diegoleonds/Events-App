@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.events.R
 import com.example.events.data.model.Event
+import com.example.events.ui.utils.DateConverter
 import com.example.events.ui.utils.ImgLoader
 import com.google.android.material.card.MaterialCardView
 
@@ -18,6 +19,7 @@ class EventAdapter(
 ): RecyclerView.Adapter<EventAdapter.ViewHolder>() {
     var events: ArrayList<Event> = ArrayList<Event>()
     var eventsSearchList = ArrayList<Event>()
+    val converter = DateConverter()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,7 +32,7 @@ class EventAdapter(
         val event = events.get(position)
 
         holder.eventName.text = event.title
-        holder.eventDate.text = event.date.toString()
+        holder.eventDate.text = converter.convertTimestampToDateString(event.date)
         holder.eventPrice.text = event.price.toString()
 
         imgLoader.loadImage(

@@ -21,4 +21,7 @@
     <string name="invalid_name_error">Invalid name</string>
     <string name="invalid_email_error">Invalid email</string>
     <string name="event_bundle">event_bundle</string>
+    <string name="network_error">Network error</string>
+    <string name="try_again_btn_txt">Try again</string>
+    <string name="error_network_toast">Network error</string>
 </resources>

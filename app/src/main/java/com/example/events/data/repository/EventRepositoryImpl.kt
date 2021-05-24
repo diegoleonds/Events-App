@@ -8,7 +8,13 @@ import com.example.events.domain.repository.EventRepository
 class EventRepositoryImpl : EventRepository {
     override suspend fun getEventById(id: Long): Event =  RetrofitInstance.api.getEventById(id)
 
-    override suspend fun getAllEvents(): List<Event> = RetrofitInstance.api.getAllEvents()
+    override suspend fun getAllEvents(): List<Event> {
+        try {
+            return RetrofitInstance.api.getAllEvents()
+        } catch (e: Exception) {
+            return emptyList()
+        }
+    }
 
     override suspend fun joinEvent(eventPerson: EventPerson) =  RetrofitInstance.api.joinEvent(eventPerson)
 }
