@@ -14,7 +14,9 @@ An Android App to display events.
   - Join
   - Search by event name
 
-
+## Architecture
+- As Google recommends, the architecture chosen was MVVM.
+![](viewmodel.png)
 
 ## Built With
 - [Android SDK](https://developer.android.com/) - Create an Android App
