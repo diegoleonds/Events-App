@@ -24,4 +24,5 @@
     <string name="network_error">Network error</string>
     <string name="try_again_btn_txt">Try again</string>
     <string name="error_network_toast">Network error</string>
+    <string name="person_already_in_event_error">This person already is on this event</string>
 </resources>

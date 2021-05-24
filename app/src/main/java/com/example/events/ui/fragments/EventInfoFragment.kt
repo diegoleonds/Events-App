@@ -10,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.events.R
 import com.example.events.data.model.Event
 import com.example.events.data.model.Person
+import com.example.events.domain.exception.PersonAlreadyInEventException
 import com.example.events.ui.utils.DateConverter
 import com.example.events.ui.utils.ImgLoader
 import com.example.events.ui.viewmodel.EventInfoViewModel
@@ -109,12 +111,18 @@ class EventInfoFragment : Fragment() {
         joinBtn.setOnClickListener {
             getPersonFromSharedPreferences()?.let {
                 CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.joinEvent(
-                        event,
-                        it
-                    )
+                    try {
+                        viewModel.joinEvent(
+                            event,
+                            it
+                        )
+                    } catch (e: PersonAlreadyInEventException) {
+                        Toast.makeText(context, getString(R.string.person_already_in_event_error),
+                            Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+            joinBtn.isEnabled = false
         }
     }
 

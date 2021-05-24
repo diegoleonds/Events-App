@@ -21,7 +21,7 @@ class EventPersonTransformTest {
         "image",
         2.0,
         1212121,
-        emptyList()
+        ArrayList<Person>()
     )
     val eventPerson = EventPerson(
         event.id,

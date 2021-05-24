@@ -10,7 +10,7 @@ data class Event(
     val image: String,
     val price: Double,
     val date: Long,
-    val people: List<EventPerson>
+    val people: ArrayList<Person>
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -19,7 +19,7 @@ data class Event(
         parcel.readString() ?: "",
         parcel.readDouble(),
         parcel.readLong(),
-        parcel.createTypedArrayList(EventPerson) ?: emptyList()
+        parcel.createTypedArrayList(Person) ?: ArrayList<Person>()
     ) {
     }
 
